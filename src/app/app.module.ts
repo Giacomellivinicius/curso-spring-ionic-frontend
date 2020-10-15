@@ -9,7 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CategoriaService } from '../services/domain/categoria.service';
 import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
-import { AuthService } from '../services/auth.services';
+import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storages.service';
 
 @NgModule({
