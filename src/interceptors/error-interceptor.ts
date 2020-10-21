@@ -53,20 +53,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handle403(){
         this.storage.setLocalUser(null);
-        let alert = this.alertCtrl.create({
-            cssClass: 'erro403',
-            title: 'Erro de autenticação',
-            message: 'Email ou senha incorretos',
-            enableBackdropDismiss: false,
-            buttons: [{
-                text: 'OK'
-            }]
-        });
-        alert.present();
     }
 
     handle401(){
         let alert = this.alertCtrl.create({
+            cssClass: 'erro401',
             title: 'Erro 401: falha de autenticação',
             message: 'Email ou senha incorretos',
             enableBackdropDismiss: false,
