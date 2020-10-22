@@ -4,6 +4,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { CidadeDTO } from '../../models/cidade.dto';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeService } from '../../services/domain/cidade.service';
+import { ClienteService } from '../../services/domain/cliente.service';
 import { EstadoService } from '../../services/domain/estado.service';
 
 @IonicPage()
@@ -22,7 +23,8 @@ export class SignupPage {
               public alertCtrl:AlertController,
               public formBuilder: FormBuilder,
               public cidadeService: CidadeService,
-              public estadoService: EstadoService) {
+              public estadoService: EstadoService,
+              public clienteService: ClienteService) {
 
     this.formGroup = this.formBuilder.group({
       nome : ['Joaquim',[Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
@@ -58,7 +60,7 @@ export class SignupPage {
     this.cidadeService.findAll(estado_id)
     .subscribe(response =>{
       this.cidades = response;
-      //O comando a seguir apaga a cidade anteriormente carregada como default
+      //O comando a seguir apaga a cidade anteriormente carregada em caso de mudança do estado
       this.formGroup.controls.cidadeId.setValue(null);
     },
     error => {});
@@ -66,17 +68,29 @@ export class SignupPage {
   }
 
   signupUser(){
+    this.clienteService.insert(this.formGroup.value)
+    .subscribe(response => {
+      this.showInsertOk();
+    },
+    error => {});
+  }
+
+  showInsertOk(){
     let alert = this.alertCtrl.create({
       cssClass: 'signupUser',
-      title: 'BEM VINDO! :)',
+      title: 'BEM VINDO! :) ',
       message: 'Formulário enviado com êxito',
+      enableBackdropDismiss: false,
       buttons:[
-        {text: 'OK'}
+        {
+          text: 'OK',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
       ]
     });
     alert.present();
   }
-
-
 
 }
